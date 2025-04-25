@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Every Second Counts</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: #001f3f; /* dark blue */
+      color: white;
+      font-family: 'Helvetica Neue', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .clock {
+      position: relative;
+      width: 40vmin;
+      height: 40vmin;
+      min-width: 200px;
+      min-height: 200px;
+      border: 8px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hand {
+      position: absolute;
+      background-color: white;
+      transform-origin: bottom center;
+      bottom: 50%;
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    .hand.second {
+      width: 2px;
+      height: 45%;
+      background-color: red;
+    }
+
+    .hand.minute {
+      width: 4px;
+      height: 40%;
+    }
+
+    .hand.hour {
+      width: 6px;
+      height: 30%;
+    }
+
+    .center-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 50%;
+      z-index: 10;
+    }
+
+    .quote {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 0 10px;
+    }
+
+    @media (max-width: 400px) {
+      .quote {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="clock">
+    <div class="hand hour" id="hourHand"></div>
+    <div class="hand minute" id="minuteHand"></div>
+    <div class="hand second" id="secondHand"></div>
+    <div class="center-dot"></div>
+  </div>
+  <div class="quote">EVERY SECOND COUNTS</div>
+
+  <audio id="tickSound" src="https://www.soundjay.com/clock/sounds/clock-ticking-1.mp3" preload="auto"></audio>
+
+  <script>
+    const hourHand = document.getElementById("hourHand");
+    const minuteHand = document.getElementById("minuteHand");
+    const secondHand = document.getElementById("secondHand");
+    const tickSound = document.getElementById("tickSound");
+
+    function updateClock() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const minutes = now.getMinutes();
+      const hours = now.getHours();
+
+      const secondDeg = seconds * 6; // 360 / 60
+      const minuteDeg = minutes * 6 + seconds * 0.1;
+      const hourDeg = (hours % 12) * 30 + minutes * 0.5;
+
+      secondHand.style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+      minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+      hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+
+      // Play tick sound
+      tickSound.currentTime = 0;
+      tickSound.play();
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial run
+  </script>
+</body>
+</html>
