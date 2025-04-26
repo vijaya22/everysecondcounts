@@ -97,21 +97,50 @@
 </head>
 
 <body>
-    <div class="clock">
+    <div class="clock" id="clock">
         <div class="hand hour" id="hourHand"></div>
         <div class="hand minute" id="minuteHand"></div>
         <div class="hand second" id="secondHand"></div>
         <div class="center-dot"></div>
     </div>
-    <div class="quote">EVERY SECOND COUNTS</div>
+    <div class="quote" id="quote">EVERY SECOND COUNTS</div>
 
-    <audio id="tickSound" src="https://www.soundjay.com/clock/sounds/clock-ticking-1.mp3" preload="auto"></audio>
+    <button id="audioToggleBtn" style="
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: white;
+      color: #001f3f;
+      font-weight: bold;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 999;
+    ">🔇 Sound Off</button>
+
+    <audio id="tickSound" src="./assets/ticking-clock_1-27477.mp3" preload="auto"></audio>
 
     <script>
         const hourHand = document.getElementById("hourHand");
         const minuteHand = document.getElementById("minuteHand");
         const secondHand = document.getElementById("secondHand");
+        const audioToggleBtn = document.getElementById("audioToggleBtn");
         const tickSound = document.getElementById("tickSound");
+
+        let soundEnabled = false;
+
+        // Only allow ticking if user has interacted
+        audioToggleBtn.addEventListener("click", () => {
+            soundEnabled = !soundEnabled;
+            tickSound.muted = !soundEnabled;
+            audioToggleBtn.textContent = soundEnabled ? "🔊 Sound On" : "🔇 Sound Off";
+
+            // Some browsers need manual trigger first
+            if (soundEnabled) {
+                tickSound.play().catch(() => { });
+            }
+        });
 
         function updateClock() {
             const now = new Date();
@@ -119,7 +148,7 @@
             const minutes = now.getMinutes();
             const hours = now.getHours();
 
-            const secondDeg = seconds * 6; // 360 / 60
+            const secondDeg = seconds * 6;
             const minuteDeg = minutes * 6 + seconds * 0.1;
             const hourDeg = (hours % 12) * 30 + minutes * 0.5;
 
@@ -127,14 +156,17 @@
             minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
             hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
 
-            // Play tick sound
-            tickSound.currentTime = 0;
-            tickSound.play();
+            if (soundEnabled) {
+                tickSound.currentTime = 0;
+                tickSound.play().catch(() => { });
+            }
         }
 
         setInterval(updateClock, 1000);
-        updateClock(); // Initial run
+        updateClock();
     </script>
 </body>
+
+
 
 </html>
