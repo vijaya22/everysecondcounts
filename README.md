@@ -8,7 +8,8 @@ Check it out here - [everysecondcounts.com](https://vijaya22.github.io/everyseco
 Clone the repo:
 git clone https://github.com/your-username/everysecondcounts.git
 
-cd everysecondcounts
+```cd everysecondcounts```
+
 Open index.html in your browser
 
 🌐 Hosting on GitHub Pages
