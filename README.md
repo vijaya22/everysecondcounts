@@ -1,8 +1,8 @@
 # 🕰️ EVERY SECOND COUNTS
 A minimal, elegant website that reminds you of the value of time — one tick at a time.
 
-Check it out here - everysecondcounts.com
-<sub>https://vijaya22.github.io/everysecondcounts/</sub>
+Check it out here - [everysecondcounts.com](https://vijaya22.github.io/everysecondcounts/)
+
 
 📦 How to Use
 Clone the repo:
